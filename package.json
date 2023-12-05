@@ -1,0 +1,28 @@
+{
+  "name": "share_calc_report",
+  "description": "Take home data extraction exercise",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wayungi/share_calc_report.git"
+  },
+  "keywords": [
+    "'data",
+    "extraction'",
+    "'calc",
+    "report'",
+    "'share",
+    "calc'"
+  ],
+  "author": "Francis Wayungi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wayungi/share_calc_report/issues"
+  },
+  "homepage": "https://github.com/wayungi/share_calc_report#readme"
+}
