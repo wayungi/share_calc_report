@@ -1,5 +1,5 @@
 const path = require('path')
-const fs = require('fs')
+const fs = require('node:fs')
 
 const createDir = (req, res, next) => {
   const folderPath = path.join(__dirname, '..', 'share_calc_reports')
