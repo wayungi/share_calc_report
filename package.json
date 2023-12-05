@@ -3,7 +3,6 @@
   "description": "Take home data extraction exercise",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/wayungi/share_calc_report/issues"
   },
-  "homepage": "https://github.com/wayungi/share_calc_report#readme"
+  "homepage": "https://github.com/wayungi/share_calc_report#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
