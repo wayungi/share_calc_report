@@ -1,0 +1,38 @@
+{
+  "name": "share_calc_report",
+  "description": "Take home data extraction exercise",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:fix": "eslint --fix ./*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wayungi/share_calc_report.git"
+  },
+  "keywords": [
+    "'data",
+    "extraction'",
+    "'calc",
+    "report'",
+    "'share",
+    "calc'"
+  ],
+  "author": "Francis Wayungi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wayungi/share_calc_report/issues"
+  },
+  "homepage": "https://github.com/wayungi/share_calc_report#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.3.1",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
