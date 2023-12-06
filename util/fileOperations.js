@@ -16,7 +16,7 @@ const readShareCalcFile = (filePath) => {
     if (err) {
       console.log(err)
     }
-    console.log(data)
+    // console.log(data)
   })
 }
 

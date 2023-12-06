@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const {getProductName} = require('./util/dataExtraction')
 const createDir = require('./middleware/createFolder')
 
 const { readFolderContent, readShareCalcFile } = require('./util/fileOperations')
@@ -16,6 +17,8 @@ app.get('/', (req, res) => {
   }
 
   shareCalcReportFilesArray.forEach((file) => {
+    const productName = getProductName(file)
+    console.log(productName)
     readShareCalcFile(file)
   })
   res.send('Hello World!')
