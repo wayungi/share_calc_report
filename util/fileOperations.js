@@ -11,7 +11,19 @@ const readFolderContent = () => {
   return shareCalcReportFilesArray
 }
 
-module.exports = readFolderContent
+const readShareCalcFile = (filePath) => {
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.log(err)
+    }
+    console.log(data)
+  })
+}
+
+module.exports = {
+  readFolderContent,
+  readShareCalcFile
+}
 
 // checks to make:
 // check if the files returned are actually files and not folders. if folders, skip them

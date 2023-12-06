@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 const createDir = require('./middleware/createFolder')
-const readFolderContent = require('./controllers/fileController')
+
+const { readFolderContent, readShareCalcFile } = require('./util/fileOperations')
 const port = 3000
 
 app.use(createDir)
@@ -13,7 +14,10 @@ app.get('/', (req, res) => {
     res.send('Nothing to process!')
     return
   }
-  console.log(shareCalcReportFilesArray)
+
+  shareCalcReportFilesArray.forEach((file) => {
+    readShareCalcFile(file)
+  })
   res.send('Hello World!')
 })
 
