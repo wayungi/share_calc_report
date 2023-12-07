@@ -47,9 +47,17 @@ const getRollOverNumber = (line) => {
   return rollOverNumber
 }
 
+const getGameStats = (line) => {
+  const regex = /\d+\s+\d{1,3}(,\d{3})*(\.\d{2})\s+\d+\s+\d{1,3}(,\d{3})*(\.\d{2})\s+(-)*\d{1,3}(,\d{3})*(\.\d{2})/
+  const matchResult = regex.exec(line)
+  if (!matchResult) return
+  console.log(matchResult)
+}
+
 module.exports = {
   getProductName,
   getDrawNumber,
   getNextDrawRollOver,
-  getRollOverNumber
+  getRollOverNumber,
+  getGameStats
 }
