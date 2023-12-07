@@ -30,10 +30,26 @@ const getDrawNumber = (line) => {
   const matchResult = regex.exec(line)
   if (!matchResult) return
   const drawNumber = matchResult[0].split(' ').pop()
+  console.log('Draw Number :', `${drawNumber}`)
   return drawNumber
+}
+
+const getNextDrawRollOver = (line) => {
+  console.log('Still pending')
+}
+
+const getRollOverNumber = (line) => {
+  const regex = /Rollover number {5}\d\d/
+  const matchResult = regex.exec(line)
+  if (!matchResult) return
+  const rollOverNumber = matchResult[0].split(' ').pop()
+  console.log('Roll Over Number', `${rollOverNumber}`)
+  return rollOverNumber
 }
 
 module.exports = {
   getProductName,
-  getDrawNumber
+  getDrawNumber,
+  getNextDrawRollOver,
+  getRollOverNumber
 }
