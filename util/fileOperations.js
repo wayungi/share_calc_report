@@ -1,47 +1,45 @@
-const fsPromises = require('fs').promises
 const fs = require('node:fs')
 const path = require('path')
 const readline = require('readline')
+const {
+  getDrawNumber,
+  getRollOverNumber,
+  getGameStats
+} = require('./dataExtraction')
 
 const folderPath = path.join(__dirname, '..', 'share_calc_reports')
 
-// write thsi with an import from fsPromises to reduce duplicate imports
+const drawNumberRegex = /Calculated share values for draw\s+\d+/
+const rollOverNumberRegex = /Rollover number\s+\d+/
+const gameStatsRegex = /\d+\s+\d{1,3}(,\d{3})*(\.\d{2})\s+\d+\s+\d{1,3}(,\d{3})*(\.\d{2})/
+
 const readFolderContent = () => {
   if (!fs.existsSync(folderPath)) return
-  const shareCalcReportFilesArray = fs.readdirSync(folderPath).map(fileName => {
-    return path.join(folderPath, fileName)
-  })
+  const shareCalcReportFilesArray = fs.readdirSync(folderPath).map(fileName => path.join(folderPath, fileName))
   return shareCalcReportFilesArray
-}
-
-const readShareCalcFile = async (filePath) => {
-  try {
-    const data = await fsPromises.readFile(filePath, 'utf8')
-    return data
-  } catch (err) {
-    console.error(err)
-    throw err
-  }
 }
 
 const readSharedCalcFileLineByLine = async (filePath) => {
   const fileStream = fs.createReadStream(filePath)
-
   const rl = readline.createInterface({
     input: fileStream,
     crlfDelay: Infinity
   })
 
   for await (const line of rl) {
-    console.log(`Line from file: ${line}`)
+    if (drawNumberRegex.exec(line)) {
+      getDrawNumber(drawNumberRegex.exec(line))
+    } else if (rollOverNumberRegex.exec(line)) {
+      getRollOverNumber(rollOverNumberRegex.exec(line))
+    } else if (gameStatsRegex.exec(line)) {
+      getGameStats(gameStatsRegex.exec(line))
+    }
+
+    // getNextDrawRollOver(line)
   }
 }
 
 module.exports = {
   readFolderContent,
-  readShareCalcFile,
   readSharedCalcFileLineByLine
 }
-
-// checks to make:
-// check if the files returned are actually files and not folders. if folders, skip them
