@@ -1,11 +1,3 @@
-/* Data values to extract
-    product name
-    draw number
-    next draw rollover
-    rollover number
-    div, share value, number of shares, payout Amount
-*/
-
 const ProductCode = {
   LOTTO: 'p008',
   POWERBALL: 'p012',
@@ -38,10 +30,11 @@ const getNextDrawRollOver = (line) => {
 }
 
 const getRollOverNumber = (line) => {
-  const regex = /Rollover number {5}\d\d/
+  const regex = /Rollover number\s+\d+/
   const matchResult = regex.exec(line)
   if (!matchResult) return
   const rollOverNumber = matchResult[0].split(' ').pop()
+  console.log(rollOverNumber)
   return rollOverNumber
 }
 
