@@ -24,6 +24,16 @@ const getProductName = (filePath) => {
   return productName
 }
 
+const getDrawNumber = (line) => {
+  // this needs to be optimized
+  const regex = /[A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z]\s[A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z]\s[A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z]\s[A-Za-z][A-Za-z][A-Za-z]\s[A-Za-z][A-Za-z][A-Za-z][A-Za-z]\s\s\s\s\s\s\s\s\s\s\d\d\d\d/
+  const matchResult = regex.exec(line)
+  if (!matchResult) return
+  const drawNumber = matchResult[0].split(' ').pop()
+  return drawNumber
+}
+
 module.exports = {
-  getProductName
+  getProductName,
+  getDrawNumber
 }
