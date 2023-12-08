@@ -62,8 +62,6 @@ const readSharedCalcFileLineByLine = async (filePath) => {
       }
     }
   }
-
-  console.log({ drawNumber, pages })
   return { drawNumber, pages }
 }
 
