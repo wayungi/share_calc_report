@@ -2,17 +2,19 @@ const express = require('express')
 const app = express()
 const { getProductName } = require('./util/dataExtraction')
 const createDir = require('./middleware/createFolder')
-
 const { readFolderContent, readSharedCalcFileLineByLine } = require('./util/fileOperations')
-const port = 3000
 
 app.use(createDir)
+app.set('view engine', 'ejs')
+app.set('views', 'views')
+
+const PORT = 3000
 
 app.get('/', async (req, res) => {
   const shareCalcReportFilesArray = readFolderContent()
 
   if (shareCalcReportFilesArray.length === 0) {
-    res.send('Nothing to process!')
+    res.status(200).render('index', { data: null })
     return
   }
 
@@ -30,9 +32,9 @@ app.get('/', async (req, res) => {
 
   console.log(result)
 
-  res.send('Result!')
+  res.status(200).render('index', { data: result })
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
 })
