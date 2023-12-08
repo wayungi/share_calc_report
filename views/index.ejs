@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Home Page</title> 
+	<style type="text/css" media="screen"> 
+		body { 
+			background-color: skyblue; 
+			text-decoration-color: white; 
+			font-size: 1em; 
+		} 
+	</style> 
+</head> 
+
+<body> 
+	<main> 
+        <% if(!data) { %>
+            <p>Nothing to process !</p>
+        <% } %>
+
+        <% if(data) {
+            data.forEach((file) => { %> <!-- file is { fileType: 'LOTTO', fileData: [ [Object], [Object], [Object] ] } -->
+            <!-- fileData is [{rollOverNumber:02, nextDrawRollover: 213, playResult: []}, {}, ...] -->
+                <table>
+                    <% file.fileData.pages.forEach((page) => { %>
+                        <tr>
+                            <td>Product Name: </td>
+                            <td><%= file.fileType %></td>
+                            <td>&nbsp;</td>
+                            <td>Draw Number</td>
+                            <td><%= file.fileData.drawNumber %></td>
+                        </tr>
+                        <tr>
+                            <td>Next Draw Rollover:</td>
+                            <td><%= page.nextDrawRollover %></td>
+                            <td>&nbsp;</td>
+                            <td>Rollover Number:</td>
+                            <td><%= page.rollOverNumber %></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Div</td>
+                            <td>Share value</td>
+                            <td>Nbr of shares</td>
+                            <td>Payout Amount</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <% page.playResult.forEach((record) => {%> 
+                            <tr>
+                                <td><%= record[0] %></td>
+                                <td>UGX <%= record[1] %></td>
+                                <td>&#215</td>
+                                <td>UGX <%= record[3] %></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        <%})%>
+                    <%})%>
+                </table>
+            <% })
+         } %>
+	</main> 
+</body> 
+</html>
