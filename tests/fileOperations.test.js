@@ -43,3 +43,22 @@ describe('Get Product name from file path', () => {
     expect(getProductName(filepath3)).toBe('DAILYLOTTO')
   })
 })
+
+describe('Get Rollover Number', () => {
+  const rollOverNumberRegex = /Rollover number\s+\d+/
+  const line1 = 'Winning set  Regular           Guaranteed Jackpot =  NO         Rollover number     04'
+  const line2 = 'Winning set  Regular           Guaranteed Jackpot =  NO         Rollover number     45'
+  const line3 = 'Winning set  Regular           Guaranteed Jackpot =  NO         Rollover number     102'
+
+  test('It will return 04 as the Rollover number', () => {
+    expect(getRollOverNumber(rollOverNumberRegex.exec(line1))).toBe('04')
+  })
+
+  test('It will return 45 as the Rollover number', () => {
+    expect(getRollOverNumber(rollOverNumberRegex.exec(line2))).toBe('45')
+  })
+
+  test('It will return 102 as the Rollover number', () => {
+    expect(getRollOverNumber(rollOverNumberRegex.exec(line3))).toBe('102')
+  })
+})

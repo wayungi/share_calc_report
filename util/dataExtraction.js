@@ -12,7 +12,10 @@ const getProductName = (filePath) => {
 
 const getNextDrawRollOver = (line) => '1000' /* =========== fix this please=== */
 const getDrawNumber = (match) => match[0].split(' ').pop()
-const getRollOverNumber = (match) => match[0].split(' ').pop()
+const getRollOverNumber = (match) => {
+  console.log(match)
+  return match[0].split(' ').pop()
+}
 const getGameStats = (match) => match[0].split(' ').filter((elem) => elem !== '')
 
 module.exports = {
