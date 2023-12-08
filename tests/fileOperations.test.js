@@ -1,4 +1,4 @@
-const { describe, expect, test } = require('@jest/globals');
+const { describe, expect, test } = require('@jest/globals')
 const {
   getDrawNumber,
   getRollOverNumber,
@@ -23,5 +23,23 @@ describe('Get draw number', () => {
 
   test('It will return 80 as the draw number', () => {
     expect(getDrawNumber(drawNumberRegex.exec(line3))).toBe('80')
+  })
+})
+
+describe('Get Product name from file path', () => {
+  const filepath1 = '/home/wayungi/Desktop/scripts/share_calc_report/share_calc_reports/improved_share_calc_report_p008_c07993_english.rep'
+  const filepath2 = '/home/wayungi/Desktop/scripts/share_calc_report/share_calc_reports/improved_share_calc_report_p012_c07996_english.rep'
+  const filepath3 = '/home/wayungi/Desktop/scripts/share_calc_report/share_calc_reports/improved_share_calc_report_p013_c07993_english.rep'
+
+  test('It will return LOTTO as the product name', () => {
+    expect(getProductName(filepath1)).toBe('LOTTO')
+  })
+
+  test('It will return POWERBALL as the product name', () => {
+    expect(getProductName(filepath2)).toBe('POWERBALL')
+  })
+
+  test('It will return DAILYLOTTO as the product name', () => {
+    expect(getProductName(filepath3)).toBe('DAILYLOTTO')
   })
 })
