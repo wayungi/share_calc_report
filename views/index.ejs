@@ -6,7 +6,7 @@
 		body { 
 			background-color: skyblue; 
 			text-decoration-color: white; 
-			font-size: 7em; 
+			font-size: 1em; 
 		} 
 	</style> 
 </head> 
@@ -16,6 +16,32 @@
         <% if(!data) { %>
             <p>Nothing to process !</p>
         <% } %>
+
+        <% if(data) {
+            data.forEach((file) => { %> <!-- file is { fileType: 'LOTTO', fileData: [ [Object], [Object], [Object] ] } -->
+            <!-- fileData is [{rollOverNumber:02, nextDrawRollover: 213, playResult: []}, {}, ...] -->
+                <table>
+                    <% file.fileData.forEach((page) => { %>
+                        <tr>
+                            <td>Div</td>
+                            <td>Share value</td>
+                            <td>Nbr of shares</td>
+                            <td>Payout Amount</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <% page.playResult.forEach((record) => {%> 
+                            <tr>
+                                <td><%= record[0] %></td>
+                                <td><%= record[1] %></td>
+                                <td><%= record[2] %></td>
+                                <td><%= record[3] %></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        <%})%>
+                    <%})%>
+                </table>
+            <% })
+         } %>
 	</main> 
 </body> 
 </html>

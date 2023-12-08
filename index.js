@@ -18,21 +18,23 @@ app.get('/', async (req, res) => {
     return
   }
 
-  const result = await (async () => {
+  const pages = await (async () => {
     let extractedData = []
     for (const file of shareCalcReportFilesArray) {
+      const resp = await readSharedCalcFileLineByLine(file)
       const SingleFileResult = {
         fileType: getProductName(file),
-        fileData: await readSharedCalcFileLineByLine(file)
+        fileData: resp // await readSharedCalcFileLineByLine(file)
       }
       extractedData = [...extractedData, SingleFileResult]
+      console.log(resp)
     }
     return extractedData
   })()
 
-  console.log(result)
+  console.log(pages)
 
-  res.status(200).render('index', { data: result })
+  res.status(200).render('index', { data: pages })
 })
 
 app.listen(PORT, () => {
