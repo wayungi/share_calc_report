@@ -1,0 +1,29 @@
+* {
+    margin:0;
+    padding:0;
+    font-size:12px;
+}
+
+body { 
+    text-decoration-color: white; 
+    font-size: 1em; 
+} 
+
+table, td {
+    border: 2px solid black;
+}
+
+table {
+    margin: 20px;
+    padding:10px;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+td {
+    padding:5px;
+}
+
+tr.record td:nth-child(odd) {
+    text-align: center;
+}
