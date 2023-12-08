@@ -21,19 +21,14 @@ app.get('/', async (req, res) => {
   const pages = await (async () => {
     let extractedData = []
     for (const file of shareCalcReportFilesArray) {
-      const resp = await readSharedCalcFileLineByLine(file)
       const SingleFileResult = {
         fileType: getProductName(file),
-        fileData: resp // await readSharedCalcFileLineByLine(file)
+        fileData: await readSharedCalcFileLineByLine(file)
       }
       extractedData = [...extractedData, SingleFileResult]
-      console.log(resp)
     }
     return extractedData
   })()
-
-  console.log(pages)
-
   res.status(200).render('index', { data: pages })
 })
 

@@ -21,7 +21,28 @@
             data.forEach((file) => { %> <!-- file is { fileType: 'LOTTO', fileData: [ [Object], [Object], [Object] ] } -->
             <!-- fileData is [{rollOverNumber:02, nextDrawRollover: 213, playResult: []}, {}, ...] -->
                 <table>
-                    <% file.fileData.forEach((page) => { %>
+                    <% file.fileData.pages.forEach((page) => { %>
+                        <tr>
+                            <td>Product Name: </td>
+                            <td><%= file.fileType %></td>
+                            <td>&nbsp;</td>
+                            <td>Draw Number</td>
+                            <td><%= file.fileData.drawNumber %></td>
+                        </tr>
+                        <tr>
+                            <td>Next Draw Rollover:</td>
+                            <td><%= page.nextDrawRollover %></td>
+                            <td>&nbsp;</td>
+                            <td>Rollover Number:</td>
+                            <td><%= page.rollOverNumber %></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
                         <tr>
                             <td>Div</td>
                             <td>Share value</td>

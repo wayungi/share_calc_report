@@ -34,6 +34,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
   let playResult = []
   const pages = []
   let obj = {}
+  let drawNumber = ''
 
   for await (const line of rl) {
     if (createNewPageRegex.exec(line)) {
@@ -50,7 +51,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
 
     if (isPageCreationRequired) {
       if (drawNumberRegex.exec(line)) {
-        obj = { ...obj, drawNumber: getDrawNumber(drawNumberRegex.exec(line)) }
+        drawNumber = getDrawNumber(drawNumberRegex.exec(line))
       } else if (rollOverNumberRegex.exec(line)) {
         obj = { ...obj, rollOverNumber: getRollOverNumber(rollOverNumberRegex.exec(line)) }
       } else if (gameStatsRegex.exec(line)) {
@@ -62,7 +63,8 @@ const readSharedCalcFileLineByLine = async (filePath) => {
     }
   }
 
-  return pages
+  console.log({ drawNumber, pages })
+  return { drawNumber, pages }
 }
 
 module.exports = {
