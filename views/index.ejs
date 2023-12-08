@@ -2,13 +2,7 @@
 <html> 
 <head> 
 	<title>Home Page</title> 
-	<style type="text/css" media="screen"> 
-		body { 
-			background-color: skyblue; 
-			text-decoration-color: white; 
-			font-size: 1em; 
-		} 
-	</style> 
+    <link rel="stylesheet" href="css/style.css" />
 </head> 
 
 <body> 
@@ -18,10 +12,10 @@
         <% } %>
 
         <% if(data) {
-            data.forEach((file) => { %> <!-- file is { fileType: 'LOTTO', fileData: [ [Object], [Object], [Object] ] } -->
-            <!-- fileData is [{rollOverNumber:02, nextDrawRollover: 213, playResult: []}, {}, ...] -->
-                <table>
+            data.forEach((file) => { %>
+              
                     <% file.fileData.pages.forEach((page) => { %>
+                        <table>
                         <tr>
                             <td>Product Name: </td>
                             <td><%= file.fileType %></td>
@@ -51,7 +45,7 @@
                             <td>&nbsp;</td>
                         </tr>
                         <% page.playResult.forEach((record) => {%> 
-                            <tr>
+                            <tr class="record">
                                 <td><%= record[0] %></td>
                                 <td>UGX <%= record[1] %></td>
                                 <td>&#215</td>
@@ -59,8 +53,9 @@
                                 <td>&nbsp;</td>
                             </tr>
                         <%})%>
+                    </table>
                     <%})%>
-                </table>
+                
             <% })
          } %>
 	</main> 
