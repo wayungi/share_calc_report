@@ -1,14 +1,12 @@
 const fs = require('node:fs')
-const path = require('path')
 const readline = require('readline')
+const path = require('path')
 const {
   getDrawNumber,
   getRollOverNumber,
   getGameStats,
   getNextDrawRollOver
 } = require('./dataExtraction')
-
-const folderPath = path.join(__dirname, '..', 'share_calc_reports')
 
 const drawNumberRegex = /Calculated share values for draw\s+\d+/
 const rollOverNumberRegex = /Rollover number\s+\d+/
@@ -17,7 +15,7 @@ const nextDrawRollOverRegex = /nextdrawroolover/ /** * this still needs figuring
 const createNewPageRegex = /Page:\s{1}\d+/ /* create new page when this regex is matched */
 const savePageRegex = /Total/ /* Save the page when this regex is matched && isPageCreationRequired === true */
 
-const readFolderContent = () => {
+const readFolderContent = (folderPath) => {
   if (!fs.existsSync(folderPath)) return
   const shareCalcReportFilesArray = fs.readdirSync(folderPath).map(fileName => path.join(folderPath, fileName))
   return shareCalcReportFilesArray
