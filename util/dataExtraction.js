@@ -10,14 +10,10 @@ const getProductName = (filePath) => {
   if (filePath.includes(ProductCode.POWERBALL)) return 'POWERBALL'
 }
 
-const getNextDrawRollOver = (line) => '1000' /* =========== fix this please=== */
+const getNextDrawRollOver = (line) => '1000' /* =========== figure out how to get next draw rollover === */
 const getDrawNumber = (match) => match[0].split(' ').pop()
 const getRollOverNumber = (match) => match[0].split(' ').pop()
-const getGameStats = (match) => {
-  console.log(match)
-  console.log(match[0].split(' ').filter((elem) => elem !== ''))
-  return match[0].split(' ').filter((elem) => elem !== '')
-}
+const getGameStats = (match) => match[0].split(' ').filter((elem) => elem !== '')
 
 module.exports = {
   getProductName,
