@@ -3,7 +3,6 @@ const {
   getDrawNumber,
   getRollOverNumber,
   getGameStats,
-  getNextDrawRollOver,
   getProductName
 } = require('../util/dataExtraction')
 
@@ -60,5 +59,24 @@ describe('Get Rollover Number', () => {
 
   test('It will return 102 as the Rollover number', () => {
     expect(getRollOverNumber(rollOverNumberRegex.exec(line3))).toBe('102')
+  })
+})
+
+describe('Get game get statistics', () => {
+  const gameStatsRegex = /\d+\s+\d{1,3}(,\d{3})*(\.\d{2})\s+\d+\s+\d{1,3}(,\d{3})*(\.\d{2})/
+  const line1 = '1           0.00               0            0.00'
+  const line2 = '10      38,103.90               2       76,207.80'
+  const line3 = '98       2,819.90              47      132,535.30'
+
+  test('It will return 04 as the Rollover number', () => {
+    expect(getGameStats(gameStatsRegex.exec(line1))).toStrictEqual(['1', '0.00', '0', '0.00'])
+  })
+
+  test('It will return 45 as the Rollover number', () => {
+    expect(getGameStats(gameStatsRegex.exec(line2))).toStrictEqual(['10', '38,103.90', '2', '76,207.80'])
+  })
+
+  test('It will return 102 as the Rollover number', () => {
+    expect(getGameStats(gameStatsRegex.exec(line3))).toStrictEqual(['98', '2,819.90', '47', '132,535.30'])
   })
 })
