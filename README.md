@@ -38,3 +38,5 @@
 
 
 ### Run tests
+
+ - [ ] To run the tests, run `npm run test`

@@ -1,14 +1,13 @@
 const fs = require('node:fs')
-const path = require('path')
 const readline = require('readline')
+const path = require('path')
 const {
   getDrawNumber,
   getRollOverNumber,
   getGameStats,
-  getNextDrawRollOver
+  getNextDrawRollOver,
+  resultType
 } = require('./dataExtraction')
-
-const folderPath = path.join(__dirname, '..', 'share_calc_reports')
 
 const drawNumberRegex = /Calculated share values for draw\s+\d+/
 const rollOverNumberRegex = /Rollover number\s+\d+/
@@ -16,9 +15,12 @@ const gameStatsRegex = /\d+\s+\d{1,3}(,\d{3})*(\.\d{2})\s+\d+\s+\d{1,3}(,\d{3})*
 const nextDrawRollOverRegex = /nextdrawroolover/ /** * this still needs figuring out from the results */
 const createNewPageRegex = /Page:\s{1}\d+/ /* create new page when this regex is matched */
 const savePageRegex = /Total/ /* Save the page when this regex is matched && isPageCreationRequired === true */
+const plusOneRegex = /Regular Plus 1/ /* LOTTO PLUS 1 */
+const plusTwoRegex = /Regular Plus 2/ /* LOTTO PLU 2 */
+const plusRegex = /Regular Plus/ /* POWERBALL PLUS */
 
-const readFolderContent = () => {
-  if (!fs.existsSync(folderPath)) return
+const readFolderContent = (folderPath) => {
+  if (!fs.existsSync(folderPath)) return null
   const shareCalcReportFilesArray = fs.readdirSync(folderPath).map(fileName => path.join(folderPath, fileName))
   return shareCalcReportFilesArray
 }
@@ -37,6 +39,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
   let drawNumber = ''
 
   for await (const line of rl) {
+    /* When "Page: x" is read, enable creation of a new display object by toggling the flag */
     if (createNewPageRegex.exec(line)) {
       isPageCreationRequired = true
     }
@@ -50,18 +53,30 @@ const readSharedCalcFileLineByLine = async (filePath) => {
     }
 
     if (isPageCreationRequired) {
+      if (plusOneRegex.exec(line)) { /* LOTTO PLUS 1 */
+        obj = { ...obj, productType: 'PLUS 1' /*resultType(plusOneRegex.exec(line))*/ }
+        // console.log(obj)
+      } else if (plusTwoRegex.exec(line)) { /* LOTTO PLUS 2 */
+        obj = { ...obj, productType: resultType(plusTwoRegex.exec(line)) }
+        // console.log(obj)
+      } else if (plusRegex.exec(line)) { /* POWERBALL PLUS */
+        obj = { ...obj, productType: resultType(plusRegex.exec(line)) }
+        // console.log(obj)
+      }
+
       if (drawNumberRegex.exec(line)) {
         drawNumber = getDrawNumber(drawNumberRegex.exec(line))
       } else if (rollOverNumberRegex.exec(line)) {
         obj = { ...obj, rollOverNumber: getRollOverNumber(rollOverNumberRegex.exec(line)) }
       } else if (gameStatsRegex.exec(line)) {
-        const gameStatArray = getGameStats(gameStatsRegex.exec(line))
+        const gameStatArray = getGameStats(gameStatsRegex.exec(line)) /* gameStatArray = ['3', '2,819.90', '47', '132,535.30'] */
         playResult = [...playResult, gameStatArray]
       } else if (nextDrawRollOverRegex.exec(line)) {
         obj = { ...obj, nextDrawRollOver: getNextDrawRollOver(line) } /* ====== fix this please ===== */
       }
     }
   }
+  console.log(pages)
   return { drawNumber, pages }
 }
 
