@@ -26,12 +26,11 @@
 
 ### Setup
 
-- [ ] Clone this repository to your desired folder
+- [ ] Clone this repository to your desired folder `git clone https://github.com/wayungi/share_calc_report.git`
 - [ ] Open the terminal in this project directory and run `npm i`
 - [ ] run `npm run dev`.
-- [ ] The application will create a directory called `share_calc_reports`
-- [ ] Copy & paste the share_calc_report files into this directory
 - [ ] Open the application interface in a browser on `http://localhost:3000/`
+- [ ] Copy & paste the share_calc_report files into the `share_calc_reports` directory
 - [ ] Refresh the page
 - [ ] The page should display the tabualr data from the extracted share_calc_files
 - [ ] Every time files are added or removed, all you need to do is refresh the page
