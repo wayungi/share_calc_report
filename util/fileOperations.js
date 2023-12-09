@@ -3,11 +3,11 @@ const readline = require('readline')
 const path = require('path')
 const {
   getNumber,
-  getGameStats,
+  getGameRecord,
   resultType
 } = require('./dataExtraction')
 
-const { DRAW_NUMBER_REGEX, ROLLOVER_NUMBER_REGEX } = require('./patterns')
+const { DRAW_NUMBER_REGEX, ROLLOVER_NUMBER_REGEX, GAME_RECORD } = require('./patterns')
 const gameStatsRegex = /\d+\s+\d{1,3}(,\d{3})*(\.\d{2})\s+\d+\s+\d{1,3}(,\d{3})*(\.\d{2})/
 const createNewPageRegex = /Page:\s{1}\d+/ /* create new page when this regex is matched */
 const savePageRegex = /Total/ /* Save the page when this regex is matched && isPageCreationRequired === true */
@@ -62,8 +62,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
       } else if (ROLLOVER_NUMBER_REGEX.exec(line)) {
         obj = { ...obj, rollOverNumber: getNumber(ROLLOVER_NUMBER_REGEX, line) }
       } else if (gameStatsRegex.exec(line)) {
-        const gameStatArray = getGameStats(gameStatsRegex.exec(line)) /* gameStatArray = ['3', '2,819.90', '47', '132,535.30'] */
-        playResult = [...playResult, gameStatArray]
+        playResult = [...playResult, getGameRecord(GAME_RECORD, line)]
       }
     }
   }
