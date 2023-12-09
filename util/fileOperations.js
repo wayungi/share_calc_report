@@ -8,6 +8,8 @@ const {
   resultType
 } = require('./dataExtraction')
 
+const { DRAW_NUMBER_REGEX } = require('./patterns')
+
 const drawNumberRegex = /Calculated share values for draw\s+\d+/
 const rollOverNumberRegex = /Rollover number\s+\d+/
 const gameStatsRegex = /\d+\s+\d{1,3}(,\d{3})*(\.\d{2})\s+\d+\s+\d{1,3}(,\d{3})*(\.\d{2})/
@@ -59,7 +61,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
         obj = { ...obj, productType: resultType(plusRegex.exec(line)) }
       }
 
-      if (drawNumberRegex.exec(line)) {
+      if (DRAW_NUMBER_REGEX.exec(line)) {
         drawNumber = getDrawNumber(drawNumberRegex.exec(line))
       } else if (rollOverNumberRegex.exec(line)) {
         obj = { ...obj, rollOverNumber: getRollOverNumber(rollOverNumberRegex.exec(line)) }
