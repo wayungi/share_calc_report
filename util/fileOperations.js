@@ -18,9 +18,9 @@ const readSharedCalcFileLineByLine = async (filePath) => {
   })
 
   let isPageCreationRequired = false
-  let playResult = []
+  let gameRecords = []
   const pages = []
-  let obj = {}
+  let pageObj = {}
   let drawNumber = ''
 
   for await (const line of rl) {
@@ -30,26 +30,26 @@ const readSharedCalcFileLineByLine = async (filePath) => {
     }
 
     if (SAVE_PAGE_REGEX.exec(line) && isPageCreationRequired) {
-      isPageCreationRequired = false
-      obj = { ...obj, playResult }
-      pages.push(obj)
-      obj = {}
-      playResult = []
+      isPageCreationRequired = !isPageCreationRequired
+      pageObj = { ...pageObj, gameRecords }
+      pages.push(pageObj)
+      pageObj = {}
+      gameRecords = []
     }
 
     if (isPageCreationRequired) {
       if (PLUS_1_REGEX.exec(line)) { /* LOTTO PLUS 1 */
-        obj = { ...obj, productType: resultType(PLUS_1_REGEX, line) }
+        pageObj = { ...pageObj, productType: resultType(PLUS_1_REGEX, line) }
       } else if (PLUS_2_REGEX.exec(line)) { /* LOTTO PLUS 2 */
-        obj = { ...obj, productType: resultType(PLUS_2_REGEX, line) }
+        pageObj = { ...pageObj, productType: resultType(PLUS_2_REGEX, line) }
       } else if (PLUS_REGEX.exec(line)) { /* POWERBALL PLUS */
-        obj = { ...obj, productType: resultType(PLUS_REGEX, line) }
+        pageObj = { ...pageObj, productType: resultType(PLUS_REGEX, line) }
       } else if (DRAW_NUMBER_REGEX.exec(line)) {
         drawNumber = getNumber(DRAW_NUMBER_REGEX, line)
       } else if (ROLLOVER_NUMBER_REGEX.exec(line)) {
-        obj = { ...obj, rollOverNumber: getNumber(ROLLOVER_NUMBER_REGEX, line) }
+        pageObj = { ...pageObj, rollOverNumber: getNumber(ROLLOVER_NUMBER_REGEX, line) }
       } else if (GAME_RECORD.exec(line)) {
-        playResult = [...playResult, getGameRecord(GAME_RECORD, line)]
+        gameRecords = [...gameRecords, getGameRecord(GAME_RECORD, line)]
       }
     }
   }
