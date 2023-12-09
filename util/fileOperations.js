@@ -5,14 +5,12 @@ const {
   getDrawNumber,
   getRollOverNumber,
   getGameStats,
-  getNextDrawRollOver,
   resultType
 } = require('./dataExtraction')
 
 const drawNumberRegex = /Calculated share values for draw\s+\d+/
 const rollOverNumberRegex = /Rollover number\s+\d+/
 const gameStatsRegex = /\d+\s+\d{1,3}(,\d{3})*(\.\d{2})\s+\d+\s+\d{1,3}(,\d{3})*(\.\d{2})/
-const nextDrawRollOverRegex = /nextdrawroolover/ /** * this still needs figuring out from the results */
 const createNewPageRegex = /Page:\s{1}\d+/ /* create new page when this regex is matched */
 const savePageRegex = /Total/ /* Save the page when this regex is matched && isPageCreationRequired === true */
 const plusOneRegex = /Regular Plus 1/ /* LOTTO PLUS 1 */
@@ -54,14 +52,11 @@ const readSharedCalcFileLineByLine = async (filePath) => {
 
     if (isPageCreationRequired) {
       if (plusOneRegex.exec(line)) { /* LOTTO PLUS 1 */
-        obj = { ...obj, productType: 'PLUS 1' /*resultType(plusOneRegex.exec(line))*/ }
-        // console.log(obj)
+        obj = { ...obj, productType: resultType(plusOneRegex.exec(line)) }
       } else if (plusTwoRegex.exec(line)) { /* LOTTO PLUS 2 */
         obj = { ...obj, productType: resultType(plusTwoRegex.exec(line)) }
-        // console.log(obj)
       } else if (plusRegex.exec(line)) { /* POWERBALL PLUS */
         obj = { ...obj, productType: resultType(plusRegex.exec(line)) }
-        // console.log(obj)
       }
 
       if (drawNumberRegex.exec(line)) {
@@ -71,12 +66,9 @@ const readSharedCalcFileLineByLine = async (filePath) => {
       } else if (gameStatsRegex.exec(line)) {
         const gameStatArray = getGameStats(gameStatsRegex.exec(line)) /* gameStatArray = ['3', '2,819.90', '47', '132,535.30'] */
         playResult = [...playResult, gameStatArray]
-      } else if (nextDrawRollOverRegex.exec(line)) {
-        obj = { ...obj, nextDrawRollOver: getNextDrawRollOver(line) } /* ====== fix this please ===== */
       }
     }
   }
-  console.log(pages)
   return { drawNumber, pages }
 }
 
