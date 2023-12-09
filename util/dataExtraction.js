@@ -16,13 +16,12 @@ const getNumber = (regex, line) => {
   return match[0].split(' ').pop()
 }
 
-const getRollOverNumber = (match) => match[0].split(' ').pop()
+// const getRollOverNumber = (match) => match[0].split(' ').pop()
 const getGameStats = (match) => match[0].split(' ').filter((elem) => elem !== '')
 const resultType = (match) => match[0].toUpperCase().replace('REGULAR', '')
 
 module.exports = {
   getProductName,
-  getRollOverNumber,
   getGameStats,
   resultType,
 
