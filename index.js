@@ -16,7 +16,7 @@ const folderPath = path.join(__dirname, 'share_calc_reports')
 app.get('/', async (req, res) => {
   const shareCalcReportFilesArray = readFolderContent(folderPath)
 
-  if (shareCalcReportFilesArray.length === 0) {
+  if (!shareCalcReportFilesArray) {
     res.status(200).render('index', { data: null })
     return
   }
