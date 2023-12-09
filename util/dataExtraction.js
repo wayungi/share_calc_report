@@ -22,7 +22,11 @@ const getGameRecord = (regex, line) => {
   return match[0].split(' ').filter((elem) => elem !== '')
 }
 
-const resultType = (match) => match[0].toUpperCase().replace('REGULAR', '')
+const resultType = (regex, line) => {
+  const match = regex.exec(line)
+  if (!match) return null
+  return match[0].toUpperCase().replace('REGULAR', '')
+}
 
 module.exports = {
   getProductName,
