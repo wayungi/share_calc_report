@@ -2,13 +2,13 @@ const fs = require('node:fs')
 const readline = require('readline')
 const path = require('path')
 const {
-  getDrawNumber,
+  getNumber,
   getRollOverNumber,
   getGameStats,
   resultType
 } = require('./dataExtraction')
 
-const { DRAW_NUMBER_REGEX } = require('./patterns')
+const { DRAW_NUMBER_REGEX, PAGE_REGEX } = require('./patterns')
 
 const drawNumberRegex = /Calculated share values for draw\s+\d+/
 const rollOverNumberRegex = /Rollover number\s+\d+/
@@ -62,7 +62,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
       }
 
       if (DRAW_NUMBER_REGEX.exec(line)) {
-        drawNumber = getDrawNumber(drawNumberRegex.exec(line))
+        drawNumber = getNumber(DRAW_NUMBER_REGEX, line)
       } else if (rollOverNumberRegex.exec(line)) {
         obj = { ...obj, rollOverNumber: getRollOverNumber(rollOverNumberRegex.exec(line)) }
       } else if (gameStatsRegex.exec(line)) {
