@@ -2,10 +2,7 @@ const fs = require('node:fs')
 const readline = require('readline')
 const path = require('path')
 const { getNumber, getGameRecord, resultType } = require('./dataExtraction')
-const { DRAW_NUMBER_REGEX, ROLLOVER_NUMBER_REGEX, GAME_RECORD, PLUS_1_REGEX, PLUS_2_REGEX, PLUS_REGEX } = require('./patterns')
-
-const createNewPageRegex = /Page:\s{1}\d+/ /* create new page when this regex is matched */
-const savePageRegex = /Total/ /* Save the page when this regex is matched && isPageCreationRequired === true */
+const { DRAW_NUMBER_REGEX, ROLLOVER_NUMBER_REGEX, GAME_RECORD, PLUS_1_REGEX, PLUS_2_REGEX, PLUS_REGEX, PAGE_REGEX, SAVE_PAGE_REGEX } = require('./patterns')
 
 const readFolderContent = (folderPath) => {
   if (!fs.existsSync(folderPath)) return null
@@ -28,11 +25,11 @@ const readSharedCalcFileLineByLine = async (filePath) => {
 
   for await (const line of rl) {
     /* When "Page: x" is read, enable creation of a new display object by toggling the flag */
-    if (createNewPageRegex.exec(line)) {
+    if (PAGE_REGEX.exec(line)) {
       isPageCreationRequired = true
     }
 
-    if (savePageRegex.exec(line) && isPageCreationRequired) {
+    if (SAVE_PAGE_REGEX.exec(line) && isPageCreationRequired) {
       isPageCreationRequired = false
       obj = { ...obj, playResult }
       pages.push(obj)
