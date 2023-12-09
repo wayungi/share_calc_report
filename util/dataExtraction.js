@@ -8,6 +8,7 @@ const getProductName = (filePath) => {
   if (filePath.includes(ProductCode.LOTTO)) return 'LOTTO'
   if (filePath.includes(ProductCode.DAILYLOTTO)) return 'DAILYLOTTO'
   if (filePath.includes(ProductCode.POWERBALL)) return 'POWERBALL'
+  return null
 }
 
 const getNumber = (regex, line) => {
@@ -32,6 +33,5 @@ module.exports = {
   getProductName,
   getGameRecord,
   resultType,
-
   getNumber
 }

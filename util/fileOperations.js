@@ -44,9 +44,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
         obj = { ...obj, productType: resultType(PLUS_2_REGEX, line) }
       } else if (PLUS_REGEX.exec(line)) { /* POWERBALL PLUS */
         obj = { ...obj, productType: resultType(PLUS_REGEX, line) }
-      }
-
-      if (DRAW_NUMBER_REGEX.exec(line)) {
+      } else if (DRAW_NUMBER_REGEX.exec(line)) {
         drawNumber = getNumber(DRAW_NUMBER_REGEX, line)
       } else if (ROLLOVER_NUMBER_REGEX.exec(line)) {
         obj = { ...obj, rollOverNumber: getNumber(ROLLOVER_NUMBER_REGEX, line) }
