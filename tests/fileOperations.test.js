@@ -1,6 +1,11 @@
-const { describe, expect, test, beforeAll, afterAll } = require('@jest/globals')
-const fs = require('fs-extra')
+const { describe, expect, test, jest, beforeAll, afterAll, beforeEach } = require('@jest/globals')
+const { ensureDir, writeFile, remove } = require('fs-extra')
+const fs = require('fs')
+const readline = require('readline')
 const { getFilesInFolder, readSharedCalcFileLineByLine } = require('../util/fileOperations')
+
+jest.mock('fs')
+jest.mock('readline')
 
 describe('Test reading files in folder', () => {
   let tempFolder
@@ -9,14 +14,15 @@ describe('Test reading files in folder', () => {
   beforeAll(async () => {
     tempFolder = './tempTestFolder'
     tempFolder2 = './tempTestFolder2'
-    await fs.ensureDir(tempFolder)
-    await fs.ensureDir(tempFolder2)
-    await fs.writeFile(`${tempFolder}/file1.txt`, 'Content of file 1')
-    await fs.writeFile(`${tempFolder}/file2.txt`, 'Content of file 2')
+    await ensureDir(tempFolder)
+    await ensureDir(tempFolder2)
+    await writeFile(`${tempFolder}/file1.txt`, 'Content of file 1')
+    await writeFile(`${tempFolder}/file2.txt`, 'Content of file 2')
   })
 
   afterAll(async () => {
-    await fs.remove(tempFolder)
+    await remove(tempFolder)
+    await remove(tempFolder2)
   })
 
   test('It should return null when the folder does not exist', () => {
@@ -38,4 +44,59 @@ describe('Test reading files in folder', () => {
     expect(getFilesInFolder(tempFolder2)).toStrictEqual([])
     expect(getFilesInFolder(tempFolder2)).toHaveLength(0)
   })
+})
+
+describe('readSharedCalcFileLineByLine', () => {
+  const mockCreateReadStream = jest.spyOn(fs, 'createReadStream')
+  const mockCreateInterface = jest.spyOn(readline, 'createInterface')
+
+  beforeEach(() => {
+    mockCreateReadStream.mockClear()
+    mockCreateInterface.mockClear()
+  })
+
+  //   test('it should process the file content correctly', async () => {
+  //     // Arrange
+  //     const mockStream = { pipe: jest.fn() }
+  //     mockCreateReadStream.mockReturnValueOnce(mockStream)
+
+  //     // Mock readline interface with an iterator for test lines
+  //     const mockReadlineIterator = jest.fn()
+  //     mockCreateInterface.mockImplementationOnce(() => ({
+  //       [Symbol.asyncIterator]: () => mockReadlineIterator
+  //     }))
+
+  //     // Mock lines in the file
+  //     const lines = [
+  //       'Page: 1',
+  //       'PLUS_1_REGEX line',
+  //       'DRAW_NUMBER_REGEX line',
+  //       'SAVE_PAGE_REGEX line',
+  //       'Page: 2',
+  //       'PLUS_2_REGEX line',
+  //       'DRAW_NUMBER_REGEX line',
+  //       'SAVE_PAGE_REGEX line'
+  //     ]
+  //     mockReadlineIterator.mockReturnValueOnce({
+  //       next: jest.fn().mockImplementationOnce(() => ({ value: lines.shift(), done: false }))
+  //     })
+
+  //     // Act
+  //     const result = await readSharedCalcFileLineByLine('mockFilePath')
+
+//     // Assert
+//     expect(result).toEqual({
+//       drawNumber: 'mock DRAW_NUMBER',
+//       pages: [
+//         {
+//           productType: 'mock PLUS_1_REGEX',
+//           gameRecords: []
+//         },
+//         {
+//           productType: 'mock PLUS_2_REGEX',
+//           gameRecords: []
+//         }
+//       ]
+//     })
+//   })
 })

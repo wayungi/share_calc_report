@@ -31,7 +31,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
 
     if (SAVE_PAGE_REGEX.exec(line) && isPageCreationRequired) {
       isPageCreationRequired = !isPageCreationRequired
-      pageObj = { ...pageObj, gameRecords }
+      pageObj = { ...pageObj, drawNumber, gameRecords }
       pages.push(pageObj)
       pageObj = {}
       gameRecords = []
@@ -46,6 +46,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
         pageObj = { ...pageObj, productType: resultType(PLUS_REGEX, line) }
       } else if (DRAW_NUMBER_REGEX.exec(line)) {
         drawNumber = getNumber(DRAW_NUMBER_REGEX, line)
+        pageObj = { ...pageObj, drawNumber: getNumber(DRAW_NUMBER_REGEX, line) }
       } else if (ROLLOVER_NUMBER_REGEX.exec(line)) {
         pageObj = { ...pageObj, rollOverNumber: getNumber(ROLLOVER_NUMBER_REGEX, line) }
       } else if (GAME_RECORD.exec(line)) {
@@ -53,7 +54,8 @@ const readSharedCalcFileLineByLine = async (filePath) => {
       }
     }
   }
-  return { drawNumber, pages }
+
+  return pages
 }
 
 module.exports = {
