@@ -1,8 +1,8 @@
 const fs = require('node:fs')
 const readline = require('readline')
 const path = require('path')
-const { getNumber, getGameRecord, resultType } = require('./dataExtraction')
-const { DRAW_NUMBER_REGEX, ROLLOVER_NUMBER_REGEX, GAME_RECORD, PLUS_1_REGEX, PLUS_2_REGEX, PLUS_REGEX, PAGE_REGEX, SAVE_PAGE_REGEX } = require('./patterns')
+const { getNumber, getGameRecord, resultType } = require('./dataExtraction.js')
+const { DRAW_NUMBER_REGEX, ROLLOVER_NUMBER_REGEX, GAME_RECORD, PLUS_1_REGEX, PLUS_2_REGEX, PLUS_REGEX, PAGE_REGEX, SAVE_PAGE_REGEX } = require('./patterns.js')
 
 const getFilesInFolder = (folderPath) => {
   if (!fs.existsSync(folderPath)) return null

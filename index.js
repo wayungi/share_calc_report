@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-const { getProductName } = require('./util/dataExtraction')
-const { getFilesInFolder, readSharedCalcFileLineByLine } = require('./util/fileOperations')
+const { getProductName } = require('./util/dataExtraction.js')
+const { getFilesInFolder, readSharedCalcFileLineByLine } = require('./util/fileOperations.js')
 const path = require('path')
 
 app.use(express.static('public'))
