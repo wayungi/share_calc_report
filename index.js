@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const { getProductName } = require('./util/dataExtraction')
-const { readFolderContent, readSharedCalcFileLineByLine } = require('./util/fileOperations')
+const { getFilesInFolder, readSharedCalcFileLineByLine } = require('./util/fileOperations')
 const path = require('path')
 
 app.use(express.static('public'))
@@ -12,7 +12,7 @@ const PORT = 3000
 const folderPath = path.join(__dirname, 'share_calc_reports')
 
 app.get('/', async (req, res) => {
-  const shareCalcReportFilesArray = readFolderContent(folderPath)
+  const shareCalcReportFilesArray = getFilesInFolder(folderPath)
 
   if (!shareCalcReportFilesArray.length) {
     res.status(200).render('index', { data: null })
