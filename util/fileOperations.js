@@ -4,7 +4,7 @@ const path = require('path')
 const { getNumber, getGameRecord, resultType } = require('./dataExtraction')
 const { DRAW_NUMBER_REGEX, ROLLOVER_NUMBER_REGEX, GAME_RECORD, PLUS_1_REGEX, PLUS_2_REGEX, PLUS_REGEX, PAGE_REGEX, SAVE_PAGE_REGEX } = require('./patterns')
 
-const readFolderContent = (folderPath) => {
+const getFilesInFolder = (folderPath) => {
   if (!fs.existsSync(folderPath)) return null
   const shareCalcReportFilesArray = fs.readdirSync(folderPath).map(fileName => path.join(folderPath, fileName))
   return shareCalcReportFilesArray
@@ -31,7 +31,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
 
     if (SAVE_PAGE_REGEX.exec(line) && isPageCreationRequired) {
       isPageCreationRequired = !isPageCreationRequired
-      pageObj = { ...pageObj, gameRecords }
+      pageObj = { ...pageObj, drawNumber, gameRecords }
       pages.push(pageObj)
       pageObj = {}
       gameRecords = []
@@ -46,6 +46,7 @@ const readSharedCalcFileLineByLine = async (filePath) => {
         pageObj = { ...pageObj, productType: resultType(PLUS_REGEX, line) }
       } else if (DRAW_NUMBER_REGEX.exec(line)) {
         drawNumber = getNumber(DRAW_NUMBER_REGEX, line)
+        pageObj = { ...pageObj, drawNumber: getNumber(DRAW_NUMBER_REGEX, line) }
       } else if (ROLLOVER_NUMBER_REGEX.exec(line)) {
         pageObj = { ...pageObj, rollOverNumber: getNumber(ROLLOVER_NUMBER_REGEX, line) }
       } else if (GAME_RECORD.exec(line)) {
@@ -53,10 +54,11 @@ const readSharedCalcFileLineByLine = async (filePath) => {
       }
     }
   }
-  return { drawNumber, pages }
+
+  return pages
 }
 
 module.exports = {
-  readFolderContent,
+  getFilesInFolder,
   readSharedCalcFileLineByLine
 }

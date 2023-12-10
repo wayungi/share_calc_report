@@ -8,20 +8,18 @@
 <body> 
 	<main> 
         <% if(!data) { %>
-            <p>Nothing to process !</p>
+            <p class="no-files">Nothing to process</p>
         <% } %>
-
         <% if(data) {
             data.forEach((file) => { %>
-              
-                    <% file.fileData.pages.forEach((page) => { %>
+                    <% file.fileData.forEach((page) => { %>
                         <table>
                         <tr>
                             <td>Product Name: </td>
                             <td><%= file.fileType %> <%= page.productType %></td>
                             <td>&nbsp;</td>
                             <td>Draw Number</td>
-                            <td><%= file.fileData.drawNumber %></td>
+                            <td><%= page.drawNumber %></td>
                         </tr>
                         <tr>
                             <td>Next Draw Rollover:</td>

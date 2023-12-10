@@ -27,3 +27,9 @@ td {
 tr.record td:nth-child(odd) {
     text-align: center;
 }
+
+.no-files {
+    font-size: 2em;
+    text-align: center;
+    margin-top:50px;
+}
