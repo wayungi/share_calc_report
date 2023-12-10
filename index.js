@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
-const { getProductName } = require('./util/dataExtraction')
-const { getFilesInFolder, readSharedCalcFileLineByLine } = require('./util/fileOperations')
+const { getProductName } = require('./util/dataExtraction.js')
+const { getFilesInFolder, readSharedCalcFileLineByLine } = require('./util/fileOperations.js')
 const path = require('path')
+const createDir = require('./middleware/share_calc_dir.js')
 
+app.use(createDir)
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 app.set('views', 'views')

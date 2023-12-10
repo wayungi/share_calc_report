@@ -1,11 +1,6 @@
-const { describe, expect, test, jest, beforeAll, afterAll, beforeEach } = require('@jest/globals')
+const { describe, expect, test, beforeAll, afterAll } = require('@jest/globals')
 const { ensureDir, writeFile, remove } = require('fs-extra')
-const fs = require('fs')
-const readline = require('readline')
-const { getFilesInFolder, readSharedCalcFileLineByLine } = require('../util/fileOperations')
-
-jest.mock('fs')
-jest.mock('readline')
+const { getFilesInFolder } = require('../util/fileOperations.js')
 
 describe('Test reading files in folder', () => {
   let tempFolder
@@ -44,59 +39,4 @@ describe('Test reading files in folder', () => {
     expect(getFilesInFolder(tempFolder2)).toStrictEqual([])
     expect(getFilesInFolder(tempFolder2)).toHaveLength(0)
   })
-})
-
-describe('readSharedCalcFileLineByLine', () => {
-  const mockCreateReadStream = jest.spyOn(fs, 'createReadStream')
-  const mockCreateInterface = jest.spyOn(readline, 'createInterface')
-
-  beforeEach(() => {
-    mockCreateReadStream.mockClear()
-    mockCreateInterface.mockClear()
-  })
-
-  //   test('it should process the file content correctly', async () => {
-  //     // Arrange
-  //     const mockStream = { pipe: jest.fn() }
-  //     mockCreateReadStream.mockReturnValueOnce(mockStream)
-
-  //     // Mock readline interface with an iterator for test lines
-  //     const mockReadlineIterator = jest.fn()
-  //     mockCreateInterface.mockImplementationOnce(() => ({
-  //       [Symbol.asyncIterator]: () => mockReadlineIterator
-  //     }))
-
-  //     // Mock lines in the file
-  //     const lines = [
-  //       'Page: 1',
-  //       'PLUS_1_REGEX line',
-  //       'DRAW_NUMBER_REGEX line',
-  //       'SAVE_PAGE_REGEX line',
-  //       'Page: 2',
-  //       'PLUS_2_REGEX line',
-  //       'DRAW_NUMBER_REGEX line',
-  //       'SAVE_PAGE_REGEX line'
-  //     ]
-  //     mockReadlineIterator.mockReturnValueOnce({
-  //       next: jest.fn().mockImplementationOnce(() => ({ value: lines.shift(), done: false }))
-  //     })
-
-  //     // Act
-  //     const result = await readSharedCalcFileLineByLine('mockFilePath')
-
-//     // Assert
-//     expect(result).toEqual({
-//       drawNumber: 'mock DRAW_NUMBER',
-//       pages: [
-//         {
-//           productType: 'mock PLUS_1_REGEX',
-//           gameRecords: []
-//         },
-//         {
-//           productType: 'mock PLUS_2_REGEX',
-//           gameRecords: []
-//         }
-//       ]
-//     })
-//   })
 })
